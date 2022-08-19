@@ -1,8 +1,31 @@
 class Solution {
 public:
     
+    vector<vector<int>> subsets(vector<int>& nums) {
+        // use the method from math 239: there are 2^n subsets of any set of size n, since
+        //   for each subset each element is either in it or not
+        // so, use binary strings, considering each number from 0 to 2^n - 1 (add the set itself
+        //   at the end)
+        vector<vector<int>> power_set;
+        int x = pow(2, nums.size()); // 2^n
+        power_set.resize(x);
+        // time : O(n * 2^n), space: O(n * 2^n) (optimal solution)
+        for (int i = 0; i < x; ++i) {
+            // bit shift, always considering the rightmost bit;
+            //   use modulus to determine if the bit is 1
+            int binary_string = i;
+            for (int j = 0; j < nums.size(); ++j) {
+                if (binary_string % 2 == 1) {
+                    power_set[i].push_back(nums[j]);
+                }
+                binary_string >>= 1; // right bitshift by 1 ()
+            }
+        }
+        return power_set;
+    }
+};
 
-    #if 0
+#if 0
     vector<vector<int>> power_set;
 
     void resetBitset(vector<bool> bs) {
@@ -77,4 +100,3 @@ public:
         
     }
     #endif
-};
